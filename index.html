@@ -1277,15 +1277,61 @@ body {
 </section>
 
     <section id="contact" class="services-section">
-      <h4>Contact Us</h4>
-      <p style="text-align: center;">Let us help you reach your financial goals.</p>
-      <form style="max-width: 500px; margin: auto; display: flex; flex-direction: column; gap: 1rem;">
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <textarea rows="4" placeholder="Your Message" required></textarea>
-        <button type="submit" class="btn-primary">Send Message</button>
-      </form>
-    </section>
+  <h4>Contact Us</h4>
+  <p style="text-align: center;">Let us help you reach your financial goals.</p>
+  <form style="max-width: 500px; margin: auto; display: flex; flex-direction: column; gap: 1rem;">
+    <input type="text" placeholder="Your Name" required />
+    <input type="email" placeholder="Your Email" required />
+    <textarea rows="4" placeholder="Your Message" required></textarea>
+    <button type="submit" class="btn-primary">Send Message</button>
+  </form>
+</section>
+
+<script>
+  const form = document.querySelector('#contact form');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = form.querySelector('input[type="text"]').value.trim();
+    const email = form.querySelector('input[type="email"]').value.trim();
+    const message = form.querySelector('textarea').value.trim();
+
+    const telegramBotToken = 'YOUR_BOT_TOKEN'; // Replace with your bot token
+    const chatId = 'YOUR_CHAT_ID';             // Replace with your chat ID
+
+    const text = `
+🔔 *New Contact Form Submission*
+👤 *Name:* ${name}
+📧 *Email:* ${email}
+💬 *Message:* ${message}
+    `;
+
+    fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: text,
+        parse_mode: 'Markdown'
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.ok) {
+        alert('Message sent successfully!');
+        form.reset();
+      } else {
+        alert('Failed to send message. Please try again.');
+      }
+    })
+    .catch(err => {
+      alert('Error sending message: ' + err.message);
+    });
+  });
+</script>
   </main>
 
   <footer>
