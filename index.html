@@ -1055,6 +1055,17 @@ body {
     padding: 12px 28px;
   }
 }
+	
+</style>
+<style>
+  #languageSelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 10px;
+    background: #f9f9f9;
+  }
 </style>
 </head>
 <body>
@@ -1116,6 +1127,7 @@ body {
   <option value="uz">Uzbek</option>
   <option value="vi">Vietnamese</option>
     </select>
+	<div id="google_translate_element" style="display:none;"></div>
     <div class="nav-container">
     <button class="left-btn" onclick="window.location.href='open_account.html';">
   Open Account
@@ -1423,6 +1435,37 @@ body {
   }
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<script>
+  document.getElementById("languageSelect").addEventListener("change", function () {
+    var lang = this.value;
+    if (lang === "") return;
+
+    var iframe = document.querySelector("iframe.goog-te-menu-frame");
+
+    function clickLanguage() {
+      try {
+        var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        var langLinks = innerDoc.querySelectorAll(".goog-te-menu2-item span.text");
+
+        for (var i = 0; i < langLinks.length; i++) {
+          if (langLinks[i].innerText.toLowerCase().includes(lang.toLowerCase())) {
+            langLinks[i].click();
+            break;
+          }
+        }
+      } catch (e) {
+        console.log("Google Translate frame not ready, retrying...");
+        setTimeout(clickLanguage, 500); // Retry until it's ready
+      }
+    }
+
+    if (iframe) {
+      clickLanguage();
+    } else {
+      setTimeout(clickLanguage, 500);
+    }
+  });
+	</script>
 </body>
 </html>
 <!-- 1341 codes -->
