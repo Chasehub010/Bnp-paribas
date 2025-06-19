@@ -1466,7 +1466,14 @@ body {
     }
   });
 </script>
-
+<script>
+  setTimeout(() => {
+    const frame = document.querySelector("iframe.goog-te-menu-frame");
+    if (!frame) {
+      alert("Google Translate isn't working. Please check your internet connection.");
+    }
+  }, 3000);
+</script>
 </body>
 </html>
 <!-- 1341 codes -->
