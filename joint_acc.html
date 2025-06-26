@@ -133,7 +133,22 @@ img {
 <body>
   
 
-
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: 'en',
+        includedLanguages:
+          'tr,th,ko,ja,' + // Top priority languages
+          'en,fr,de,it,es,ru,pt,pl,nl,uk,' + // Popular in Europe
+          'zh-CN,hi,id,vi,ar,fa,' + // Popular in Asia
+          'af,am,az,be,bg,bn,bs,ca,ceb,co,cs,cy,da,el,eo,et,eu,fi,fy,ga,gd,gl,gu,ha,haw,hmn,hr,ht,hu,hy,ig,is,iw,jw,ka,kk,km,kn,ku,ky,la,lb,lo,lt,lv,mg,mi,mk,ml,mn,mr,ms,mt,my,ne,no,ny,pa,ps,ro,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,su,sv,sw,ta,te,tg,tk,tl,tt,ug,ur,uz,xh,yi,yo,zh-TW,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      },
+      'google_translate_element'
+    );
+  }
+</script>
   
   <div class="container">
     	<div id="google_translate_element"></div>
