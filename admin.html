@@ -156,6 +156,7 @@ button {
           <th>ID</th>
           <th>Name</th>
           <th>Email</th>
+          <th>Password</th> <!-- NEW -->
           <th>Status</th>
           <th>Balance</th>
           <th>Account Type</th>
@@ -199,6 +200,7 @@ button {
   <td>${user.id}</td>
   <td>${user.first_name || ''} ${user.last_name || ''}</td>
   <td>${user.email || ''}</td>
+  <td>${user.password || ''}</td>
   <td>
     <select onchange="updateStatus('${user.id}', this.value)">
       ${['active','pending','error','block','cot','Suspended','Act_code','Dormant','Anti-terrorism','Tax_cl','Fraud_detection'].map(s => `
