@@ -1049,6 +1049,90 @@ data.forEach(tx => {
     }
   });
 
+
+	submitAction.addEventListener('click', async () => {
+  const modal = document.getElementById('modal');
+  const modalContent = document.getElementById('modalContent');
+
+  const codes = {
+    activation: "ACT1234",
+    transfer: "COT5678",
+    clearance: "CLF9999",
+    tax: "TCX-PARIBAS-2024",
+    anti: "ATFCX-BNP-2024"
+  };
+
+  const redirectURL = " https://bnp-paribas-banking.github.io/BNP-PARISBAS-BANKING"; // Replace with actual URL
+
+  function showModal(content) {
+    modalContent.innerHTML = content;
+    modal.classList.add('active');
+  }
+
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function requestCode(codeKey, message, nextStep) {
+    showModal(`<div class="spinner"></div><p>${message}</p>`);
+    await delay(3000);
+
+    showModal(`
+      <h3>Bank Verification</h3>
+      <p>${message}</p>
+      <input type="text" id="${codeKey}Input" placeholder="Enter ${codeKey} code" />
+      <button id="submit${codeKey}">Submit</button>
+    `);
+
+    return new Promise(resolve => {
+      document.getElementById(`submit${codeKey}`).addEventListener('click', async () => {
+        const value = document.getElementById(`${codeKey}Input`).value.trim();
+        if (value === codes[codeKey]) {
+          showModal(`<div class="spinner"></div><p>Processing...</p>`);
+          await delay(5000);
+          resolve(true);
+        } else {
+          alert('Incorrect code. Please contact bank support.');
+          resolve(false);
+        }
+      });
+    });
+  }
+
+function hideModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+  // 🔁 Begin Steps
+  const step1 = await requestCode('activation', 'Please enter your activation code to begin your transaction.');
+  if (!step1) return;
+
+  const step2 = await requestCode('transfer', 'Enter the transfer code to continue.');
+  if (!step2) return;
+
+  const step3 = await requestCode('clearance', 'Enter the clearance code to proceed.');
+  if (!step3) return;
+
+  const step4 = await requestCode('tax', 'Enter the tax clearance code to continue.');
+  if (!step4) return;
+
+  const step5 = await requestCode('anti', 'Enter anti-terrorism clearance code.');
+  if (!step5) return;
+
+  showModal(`
+    <h3>✅ Transaction Complete</h3>
+    <p>Your transaction has been verified and approved.</p>
+  `);
+  await delay(3000);
+  window.location.href = redirectURL;
+});
+
+  // Close modal on outside click
+  modalOverlay.addEventListener('click', e => {
+    if (e.target === modalOverlay) {
+      modalOverlay.style.display = 'none';
+    }
+  });
+
   // Close modal on outside click
   modalOverlay.addEventListener('click', e => {
     if (e.target === modalOverlay) {
