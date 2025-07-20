@@ -733,7 +733,7 @@ th, td {
     <input id="bankName" ...>
     	<label for="fullName">Account Number</label>
     <input id="accountNumber" ...>
-    	<label for="fullName"> Bank code</label>
+    	<label for="fullName">Amount</label>
     <input id="codeInput" ...>
     <button id="submitAction">Transfer Now</button>
   </div>
@@ -1021,15 +1021,15 @@ data.forEach(tx => {
     switch (actionType) {
       case 'transfer':
         modalTitle.textContent = 'Transfer Funds';
-        codeInput.placeholder = 'Enter Activation Code';
+        codeInput.placeholder = 'Enter Amount';
         break;
       case 'withdraw':
         modalTitle.textContent = 'Withdraw Funds';
-        codeInput.placeholder = 'Enter COT Code';
+        codeInput.placeholder = 'Enter Amount';
         break;
       case 'payments':
         modalTitle.textContent = 'Payment Request';
-        codeInput.placeholder = 'Enter CLF Code';
+        codeInput.placeholder = 'Enter Amount';
         break;
     }
   }
